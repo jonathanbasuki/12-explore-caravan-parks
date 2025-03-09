@@ -50,7 +50,7 @@ router.get('/saved/:saved_id', (req, res) => {
     });
 });
 
-// DELETE user by NIM (DELETE)
+// DELETE saved campsite by saved_id (DELETE)
 router.delete('/saved/:saved_id', (req, res) => {
     const sql = `DELETE FROM saved_campsites WHERE saved_id = ?`;
     

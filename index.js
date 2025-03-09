@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 // Routing
 app.use(userRoute);
 app.use(savedRoute);
-// app.use(bookingRoute);
+app.use(bookingRoute);
 
 // Menjalankan server
 app.listen(port, () => {
