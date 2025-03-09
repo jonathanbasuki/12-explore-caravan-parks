@@ -1,20 +1,7 @@
 const express = require('express');
-const mysql = require('mysql');
 const router = express.Router();
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'soa_explore_caravan_parks'
-});
-
-db.connect((err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to MySQL');
-});
+const db = require('../app/config');
 
 // CREATE user (POST)
 router.post('/users', (req, res) => {
