@@ -22,6 +22,8 @@
   "homepage": "https://github.com/jonathanbasuki/12-explore-caravan-parks#readme",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
     "express": "^4.21.2",
     "mysql": "^2.18.1"
   }
