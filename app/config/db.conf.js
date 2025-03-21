@@ -1,17 +1,9 @@
-const mysql = require('mysql');
+const { Sequelize } = require('sequelize');
 
-const db = mysql.createConnection({
+const sequelize = new Sequelize('soa_explore_caravan_parks', 'root', '', {
     host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'soa_explore_caravan_parks'
+    dialect: 'mysql',
+    logging: false,
 });
 
-db.connect((err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to MySQL');
-});
-
-module.exports = db;
+module.exports = sequelize;

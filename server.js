@@ -18,7 +18,9 @@ app.set('views', path.join(__dirname, 'app/views'));
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, 'public'))); // Path to assets images
+app.use(express.static(path.join(__dirname, 'src'))); // Path to scripts
 
 // Routing
 app.use('/', homeRoute);
