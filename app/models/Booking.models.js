@@ -46,24 +46,34 @@ Booking.createBooking = async (data) => {
 };
 
 // Get all bookings
-Booking.getAllBookings = async () => {
+Booking.getAllBookings = async (user) => {
     return await Booking.findAll({
         attributes: ['booking_id', 'check_in', 'check_out', 'status', 'created_at', 'updated_at'],
-        where: { deleted_at: null }
+        where: {
+            user_id: user,
+            deleted_at: null
+        }
     });
 };
 
-// Get booking by ID
-Booking.getBookingDetail = async (booking_id) => {
-    return await Booking.findByPk(booking_id, {
+// Get booking detail
+Booking.getBookingDetail = async (booking_id, user) => {
+    return await Booking.findOne({
         attributes: ['booking_id', 'check_in', 'check_out', 'status', 'created_at', 'updated_at'],
+        where: {
+            booking_id,
+            user_id: user
+        }
     });
 };
 
 // Update booking
 Booking.updateBooking = async (booking_id, data) => {
     const [updated] = await Booking.update(data, {
-        where: { booking_id }
+        where: {
+            booking_id,
+            user_id: data.user_id
+        }
     });
 
     if (!updated) return null;
@@ -76,10 +86,15 @@ Booking.updateBooking = async (booking_id, data) => {
 
 
 // Soft delete booking
-Booking.softDeleteBooking = async (booking_id) => {
+Booking.softDeleteBooking = async (booking_id, user) => {
     const updated = await Booking.update(
         { deleted_at: new Date() },
-        { where: { booking_id } }
+        {
+            where: {
+                booking_id,
+                user_id: user
+            }
+        }
     );
 
     if (!updated) return null;

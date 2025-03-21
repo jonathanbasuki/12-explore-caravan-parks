@@ -1,5 +1,6 @@
 const Booking = require('../models/Booking.models');
 
+// Create new booking
 exports.createBooking = async (req, res) => {
     try {
         const booking = await Booking.createBooking(req.body);
@@ -17,9 +18,10 @@ exports.createBooking = async (req, res) => {
     }
 };
 
+// Get user (logged in) booking data
 exports.getAllBookings = async (req, res) => {
     try {
-        const bookings = await Booking.getAllBookings();
+        const bookings = await Booking.getAllBookings(req.body.user_id);
 
         res.status(200).json({
             status: 200,
@@ -34,9 +36,10 @@ exports.getAllBookings = async (req, res) => {
     }
 };
 
+// Get user (logged in) booking detail 
 exports.getBookingDetail = async (req, res) => {
     try {
-        const booking = await Booking.getBookingDetail(req.params.booking_id);
+        const booking = await Booking.getBookingDetail(req.params.booking_id, req.body.user_id);
 
         if (!booking) return res.status(404).json({
             status: 404,
@@ -84,7 +87,7 @@ exports.updateBooking = async (req, res) => {
 
 exports.softDeleteBooking = async (req, res) => {
     try {
-        const deletedBooking = await Booking.softDeleteBooking(req.params.booking_id);
+        const deletedBooking = await Booking.softDeleteBooking(req.params.booking_id, req.body.user_id);
 
         if (!deletedBooking) {
             return res.status(404).json({
