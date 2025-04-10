@@ -22,22 +22,12 @@ const Booking = sequelize.define('Booking', {
         type: DataTypes.ENUM('Pending', 'Confirmed', 'Canceled', 'Completed', 'Rejected'),
         defaultValue: 'Pending'
     },
-    created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    },
-    updated_at: {
-        type: DataTypes.DATE,
-        allowNull: true
-    },
-    deleted_at: {
-        type: DataTypes.DATE,
-        allowNull: true
-    }
 }, {
-    timestamps: false,
-    tableName: 'bookings'
+    tableName: 'bookings',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at'
 });
 
 // Create a new booking
@@ -87,17 +77,16 @@ Booking.updateBooking = async (booking_id, data) => {
 
 // Soft delete booking
 Booking.softDeleteBooking = async (booking_id, user) => {
-    const updated = await Booking.update(
-        { deleted_at: new Date() },
-        {
-            where: {
-                booking_id,
-                user_id: user
-            }
+    const booking = await Booking.findOne({
+        where: {
+            booking_id,
+            user_id: user
         }
-    );
+    });
+    
+    if (!booking) return null;
 
-    if (!updated) return null;
+    await booking.destroy();
 
     return await Booking.findByPk(booking_id, {
         attributes: ['booking_id', 'deleted_at']
