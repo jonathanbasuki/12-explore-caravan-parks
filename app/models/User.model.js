@@ -1,4 +1,6 @@
-const { DataTypes, Op } = require('sequelize'); // Import Op
+const { DataTypes } = require('sequelize');
+const bcrypt = require('bcryptjs');
+
 const sequelize = require('../config/db.conf');
 
 const User = sequelize.define('User', {
@@ -30,12 +32,14 @@ const User = sequelize.define('User', {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
-    paranoid: true // Untuk soft delete
+    paranoid: true
 });
 
 // Register new user
-User.createUser = async (data) => {
-    return await User.create(data);
+User.createUser = async ({ user_id, username, email, password }) => {
+    const hashed = await bcrypt.hash(password, 10);
+
+    return User.create({ user_id, username, email, password_hash: hashed });
 }
 
 // Get all users (hanya yang tidak dihapus)
@@ -83,7 +87,7 @@ User.softDeleteUser = async (user_id) => {
         {
             where: {
                 user_id,
-                deleted_at: null 
+                deleted_at: null
             }
         }
     );
