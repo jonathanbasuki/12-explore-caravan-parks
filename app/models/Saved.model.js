@@ -15,7 +15,7 @@ const Saved = sequelize.define('Saved', {
         allowNull: false,
     }
 }, {
-    tableName: 'saved_campsites',
+    tableName: 'saved_campgrounds',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: false,
