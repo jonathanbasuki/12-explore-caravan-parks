@@ -1,9 +1,9 @@
 // Home page
-exports.getHomePage = (req, res) => {
+exports.renderHomePage = (req, res) => {
     res.render('pages/home', { title: "Campervan" });
 };
 
 // About page
-exports.getAboutPage = (req, res) => {
+exports.renderAboutPage = (req, res) => {
     res.render('pages/about', { title: "About Us" });
 };
