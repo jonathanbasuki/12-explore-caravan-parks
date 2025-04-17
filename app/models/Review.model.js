@@ -42,7 +42,7 @@ Review.addCampgroundReview = async (data) => {
 // Get campgrounds review
 Review.getCampgroundReview = async (campground_id, campground_state) => {
     return await Review.findOne({
-        attributes: ['rating', 'comment'],
+        attributes: ['review_id', 'rating', 'comment'],
         where: {
             campground_id,
             campground_state
