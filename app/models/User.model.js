@@ -1,5 +1,7 @@
-const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
+
+const { DataTypes, Op } = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
 
 const sequelize = require('../config/db.conf');
 
@@ -36,10 +38,23 @@ const User = sequelize.define('User', {
 });
 
 // Register new user
-User.createUser = async ({ user_id, username, email, password }) => {
+User.createUser = async ({ username, email, password }) => {
+    const userId = uuidv4();
     const hashed = await bcrypt.hash(password, 10);
 
-    return User.create({ user_id, username, email, password_hash: hashed });
+    return User.create({ user_id: userId, username, email, password_hash: hashed });
+}
+
+// Get user by email or username
+User.getUserByEmailOrUsername = async (identifier) => {
+    return await User.findOne({
+        where: {
+            [Op.or]: [
+                { email: identifier },
+                { username: identifier }
+            ]
+        }
+    });
 }
 
 // Get all users (hanya yang tidak dihapus)

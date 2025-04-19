@@ -4,6 +4,7 @@ const User = require('../models/User.model');
 exports.createUser = async (req, res) => {
     try {
         const user = await User.createUser(req.body);
+
         res.status(201).json({
             status: 201,
             message: 'User registered successfully!',
@@ -21,7 +22,8 @@ exports.createUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.getAllUsers();
-        res.status(200).json({ 
+
+        res.status(200).json({
             status: 200,
             message: 'User data fetched successfully!',
             data: users
