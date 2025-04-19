@@ -1,0 +1,49 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <section class="relative min-h-screen w-full bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- ✅ Black overlay -->
+            <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+            <!-- ✅ Booking History Content -->
+            <div class="relative z-10 pt-24 pb-12 px-6">
+                <div class="max-w-7xl mx-auto text-white text-center">
+                    <h1 class="text-4xl font-bold mb-4">Booking History</h1>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                        Review your past stays and adventures.
+                    </p>
+                </div>
+
+                <!-- ✅ Bookings Grid -->
+                <div
+                    class="mt-10 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <% bookings.forEach(booking=> { %>
+                        <div
+                            class="backdrop-blur bg-white/30 border border-white/10 rounded-lg shadow-lg p-4 text-white">
+                            <img src="<%= booking.image %>" alt="<%= booking.place %>"
+                                class="w-full h-40 object-cover rounded mb-3">
+                            <h2 class="text-lg font-semibold">
+                                <%= booking.place %>
+                            </h2>
+                            <p class="text-sm text-gray-200">
+                                <%= booking.location %>
+                            </p>
+                            <p class="text-sm mt-2"><strong>Check-in:</strong>
+                                <%= booking.checkIn %>
+                            </p>
+                            <p class="text-sm"><strong>Check-out:</strong>
+                                <%= booking.checkOut %>
+                            </p>
+                            <p class="text-sm mt-2"><strong>Status:</strong>
+                                <span class="inline-block px-2 py-0.5 rounded-full text-xs bg-green-600 text-white">
+                                    <%= booking.status %>
+                                </span>
+                            </p>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </section>

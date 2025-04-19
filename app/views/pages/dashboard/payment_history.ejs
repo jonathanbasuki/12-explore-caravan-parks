@@ -1,0 +1,51 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <section class="relative min-h-screen w-full bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- ✅ Black overlay -->
+            <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+            <!-- ✅ Main content -->
+            <div class="relative z-10 pt-24 pb-12 px-6">
+                <div class="max-w-7xl mx-auto text-white text-center">
+                    <h1 class="text-4xl font-bold mb-4">Payment History</h1>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                        Track your payment transactions and statuses here.
+                    </p>
+                </div>
+
+                <!-- ✅ Payment grid -->
+                <div
+                    class="mt-10 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <% payments.forEach(payment=> { %>
+                        <div
+                            class="backdrop-blur bg-white/30 border border-white/10 rounded-lg shadow-lg p-4 text-white">
+                            <div class="flex justify-between items-center mb-2">
+                                <h2 class="text-lg font-semibold">
+                                    <%= payment.place %>
+                                </h2>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-green-600 text-white">
+                                    <%= payment.status %>
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-200 mb-1">
+                                <%= payment.location %>
+                            </p>
+                            <p class="text-sm"><strong>Amount:</strong> $<%= payment.amount %>
+                            </p>
+                            <p class="text-sm"><strong>Paid on:</strong>
+                                <%= payment.date %>
+                            </p>
+                            <p class="text-sm"><strong>Method:</strong>
+                                <%= payment.method %>
+                            </p>
+                            <p class="text-xs text-gray-300 mt-2">Transaction ID: <%= payment.transactionId %>
+                            </p>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </section>

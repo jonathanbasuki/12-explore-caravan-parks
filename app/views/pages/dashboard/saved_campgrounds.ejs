@@ -1,0 +1,54 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <section class="relative min-h-screen w-full bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- ✅ Black overlay -->
+            <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+            <!-- ✅ Main content, on top of overlay -->
+            <div class="relative z-10 pt-24 pb-12 px-6">
+                <div class="max-w-7xl mx-auto text-white text-center">
+                    <h1 class="text-4xl font-bold mb-4">Your Wishlist</h1>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                        Explore all the places you've saved and plan your next escape!
+                    </p>
+                </div>
+
+                <!-- ✅ Wishlist Items Grid -->
+                <div class="mt-10 max-w-7xl mx-auto">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                        <div class="relative group">
+                            <a href="/search/campground"
+                                class="block bg-white bg-opacity-90 hover:bg-opacity-100 rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
+                                <img src="/images/hero.jpg" alt="" class="h-40 w-full object-cover" />
+                                <div class="p-4">
+                                    <h2 class="text-base font-semibold text-gray-800 flex items-center gap-1">
+                                        Beautiful Camp Lake Front
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor"
+                                            class="w-4 h-4 md:w-5 md:h-5 text-current">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                        </svg>
+                                    </h2>
+                                </div>
+                            </a>
+                            <!-- Remove from Wishlist Button -->
+                            <form action="/wishlist/?_method=DELETE" method="POST" class="absolute top-2 right-2">
+                                <button type="submit"
+                                    class="bg-white bg-opacity-80 text-red-500 hover:text-red-600 p-1 rounded-full shadow-sm transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6.75 6.75l10.5 10.5m0-10.5L6.75 17.25" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
