@@ -1,4 +1,6 @@
 const { DataTypes } = require("sequelize");
+const { v4: uuidv4 } = require('uuid');
+
 const sequelize = require("../config/db.conf");
 
 const Review = sequelize.define('Review', {
@@ -11,10 +13,6 @@ const Review = sequelize.define('Review', {
         allowNull: false,
     },
     campground_id: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    campground_state: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -35,17 +33,24 @@ const Review = sequelize.define('Review', {
 });
 
 // Create new review
-Review.addCampgroundReview = async (data) => {
-    return await Review.create(data);
-}
+Review.addCampgroundReview = async ({ user_id, campground_id, rating, comment }) => {
+    const reviewId = uuidv4();
+
+    return await Review.create({
+        review_id: reviewId,
+        user_id,
+        campground_id,
+        rating,
+        comment
+    });
+};
 
 // Get campgrounds review
-Review.getCampgroundReview = async (campground_id, campground_state) => {
-    return await Review.findOne({
+Review.getCampgroundReview = async (campground_id) => {
+    return await Review.findAll({
         attributes: ['review_id', 'rating', 'comment'],
         where: {
-            campground_id,
-            campground_state
+            campground_id
         }
     });
 }
