@@ -1,0 +1,121 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <section class="relative min-h-screen w-full bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- ✅ Black overlay -->
+            <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+            <!-- ✅ Main content, on top of overlay -->
+            <div class="relative z-10 pt-24 pb-12 px-6">
+                <div class="max-w-7xl mx-auto text-white text-center">
+                    <h1 class="text-4xl font-bold mb-4">Explore Your Next Adventure</h1>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                        Discover unique places to stay, from glamping in the forest to cozy tents by the lake.
+                    </p>
+                </div>
+
+                <!-- ✅ Search results grid -->
+                <div class="mt-10 max-w-7xl mx-auto">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                        <% if (campgrounds.length>0) { %>
+                            <% campgrounds.forEach(campground=> { %>
+                                <a href="/search/campground/<%= campground.id %>"
+                                    class="block bg-white bg-opacity-90 hover:bg-opacity-100 rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
+                                    <img src="<%= campground.media_urls[0] || '/images/hero.jpg' %>"
+                                        alt="<%= campground.name %>" class="h-40 w-full object-cover" />
+
+                                    <div class="p-4">
+                                        <h2 class="text-base font-semibold text-gray-800 flex items-center gap-1">
+                                            <%= campground.name %>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor"
+                                                    class="w-4 h-4 md:w-5 md:h-5 text-current">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                                </svg>
+                                        </h2>
+                                    </div>
+                                </a>
+                                <% }) %>
+
+                                    <% } else { %>
+                                        <div class="col-span-full text-center backdrop-blur bg-white/30 border border-white/10 rounded-lg shadow-lg p-6 text-white flex items-center justify-center"
+                                            style="min-height: 200px;">
+                                            <div class="text-center w-full">
+                                                <h2 class="text-2xl font-semibold mb-3">Oops! No campgrounds in that
+                                                    location.</h2>
+                                                <a href="/explore"
+                                                    class="inline-block px-6 py-2 bg-[var(--burnt-orange)] rounded-full font-semibold hover:bg-[var(--burnt-orange-hover)] transition duration-300">
+                                                    Explore another location
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                    </div>
+
+                    <% if (metadata.total_page> 1) { %>
+                        <div class="mt-10 overflow-x-auto">
+                            <div class="flex justify-center items-center space-x-2 w-max mx-auto px-4">
+                                <% const currentPage=metadata.page; const totalPages=metadata.total_page; const
+                                    pageRange=2; // Show 2 pages before and after current const location=query.location;
+                                    %>
+
+                                    <% if (currentPage> 1) { %>
+                                        <a href="/search?location=<%= location %>&page=<%= currentPage - 1 %>"
+                                            class="px-4 py-2 rounded-lg bg-[#BF5B04] text-white hover:bg-[#a44a03] transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center space-x-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2" stroke="white" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 7l-7 7 7 7">
+                                                </path>
+                                            </svg>
+                                            <span>Prev</span>
+                                        </a>
+                                        <% } %>
+
+                                            <% if (currentPage> pageRange + 1) { %>
+                                                <a href="/search?location=<%= location %>&page=1"
+                                                    class="px-3 py-2 rounded-lg bg-white text-gray-700 hover:bg-[#BF5B04] hover:text-white transition duration-300">1</a>
+                                                <span class="px-2 text-gray-700">...</span>
+                                                <% } %>
+
+                                                    <% for (let i=Math.max(1, currentPage - pageRange); i
+                                                        <=Math.min(totalPages, currentPage + pageRange); i++) { %>
+                                                        <a href="/search?location=<%= location %>&page=<%= i %>"
+                                                            class="px-4 py-2 rounded-lg transition duration-300
+                                       <%= i === currentPage ? 'bg-[#BF5B04] text-white shadow-xl transform scale-105' : 'bg-white text-gray-700 hover:bg-[#BF5B04] hover:text-white' %>">
+                                                            <%= i %>
+                                                        </a>
+                                                        <% } %>
+
+                                                            <% if (currentPage < totalPages - pageRange) { %>
+                                                                <span class="px-2 text-gray-700">...</span>
+                                                                <a href="/search?location=<%= location %>&page=<%= totalPages %>"
+                                                                    class="px-3 py-2 rounded-lg bg-white text-gray-700 hover:bg-[#BF5B04] hover:text-white transition duration-300">
+                                                                    <%= totalPages %>
+                                                                </a>
+                                                                <% } %>
+
+                                                                    <% if (currentPage < totalPages) { %>
+                                                                        <a href="/search?location=<%= location %>&page=<%= currentPage + 1 %>"
+                                                                            class="px-4 py-2 rounded-lg bg-[#BF5B04] text-white hover:bg-[#a44a03] transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center space-x-2">
+                                                                            <span>Next</span>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                fill="none" viewBox="0 0 24 24"
+                                                                                stroke-width="2" stroke="white"
+                                                                                class="w-5 h-5">
+                                                                                <path stroke-linecap="round"
+                                                                                    stroke-linejoin="round"
+                                                                                    d="M10 17l7-7-7-7"></path>
+                                                                            </svg>
+                                                                        </a>
+                                                                        <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+
+                </div>
+            </div>
+        </section>

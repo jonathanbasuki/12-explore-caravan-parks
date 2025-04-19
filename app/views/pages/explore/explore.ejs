@@ -1,0 +1,41 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <!-- Hero section with black overlay and search form -->
+        <section class="relative h-screen w-full bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- Black overlay -->
+            <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+            <!-- Vertically centered content -->
+            <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center text-white">
+                <h1 class="text-4xl font-bold sm:text-5xl mb-4 drop-shadow-md">Find Your Perfect Escape</h1>
+                <p class="text-lg sm:text-xl mb-8 drop-shadow-md">Explore the best campgrounds as you wish.</p>
+
+                <!-- Search form -->
+                <form action="/search" method="GET"
+                    class="bg-white bg-opacity-80 backdrop-blur-sm p-3 rounded-full shadow-lg w-full max-w-lg flex relative">
+
+                    <div class="flex-grow relative">
+                        <input id="searchInput" type="text" name="location" autocomplete="off"
+                            placeholder="Search your desired place"
+                            class="w-full px-4 py-2 rounded-l-full outline-none bg-transparent text-gray-700 placeholder-gray-500">
+
+                        <!-- Suggestions Dropdown -->
+                        <ul id="suggestions"
+                            class="absolute z-10 w-full bg-white text-gray-700 mt-1 rounded-lg shadow-lg hidden max-h-60 overflow-auto">
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="px-5 py-2 rounded-r-full bg-[#BF5B04] hover:bg-[#a44a03] transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="white" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </section>
