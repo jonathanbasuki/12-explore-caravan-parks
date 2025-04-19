@@ -3,13 +3,12 @@ const Saved = require('../models/Saved.model');
 // Save campsite
 exports.saveCampsite = async (req, res) => {
     try {
-        const campsite = await Saved.saveCampsite(req.body);
+        const user_id = req.user.id;
+        const campground_id = req.body.campground_id;
 
-        res.status(201).json({
-            status: 201,
-            message: 'Campsite saved successfully!',
-            data: campsite
-        });
+        const campsite = await Saved.saveCampsite({ user_id, campground_id });
+
+        res.redirect(`/search/campground/${campground_id}`);
     } catch (err) {
         res.status(500).json({
             status: 500,
@@ -21,7 +20,7 @@ exports.saveCampsite = async (req, res) => {
 // Get all user (logged-in) saved campsites
 exports.getAllSavedCampsites = async (req, res) => {
     try {
-        const campsites = await Saved.getAllSavedCampsites(req.body.user_id);
+        const campsites = await Saved.getAllSavedCampsites(req.user.id);
 
         res.status(200).json({
             status: 200,
@@ -62,17 +61,17 @@ exports.getSavedDetail = async (req, res) => {
 // Remove user (logged-in) saved campsite
 exports.removeSavedCampsite = async (req, res) => {
     try {
-        const deleted = await Saved.removeSavedCampsite(req.params.saved_id, req.body.user_id);
+        const user_id = req.user.id;
+        const campground_id = req.params.campground_id;
+
+        const deleted = await Saved.removeSavedCampsite({ user_id, campground_id });
 
         if (!deleted) return res.status(404).json({
             status: 404,
             message: 'Saved campsite not found.'
         });
 
-        res.status(200).json({
-            status: 200,
-            message: 'Saved campsite deleted successfully!'
-        });
+        res.redirect(`/search/campground/${campground_id}`);
     } catch (err) {
         res.status(500).json({
             status: 500,

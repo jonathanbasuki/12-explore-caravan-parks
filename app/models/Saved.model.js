@@ -1,4 +1,6 @@
 const { DataTypes } = require("sequelize");
+const { v4: uuidv4 } = require('uuid');
+
 const sequelize = require("../config/db.conf");
 
 const Saved = sequelize.define('Saved', {
@@ -10,7 +12,7 @@ const Saved = sequelize.define('Saved', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    campsite_uri: {
+    campground_id: {
         type: DataTypes.STRING,
         allowNull: false,
     }
@@ -22,15 +24,31 @@ const Saved = sequelize.define('Saved', {
     deletedAt: false
 });
 
+Saved.checkSavedByUser = async ({ user_id, campground_id }) => {
+    return await Saved.findOne({
+        attributes: ['saved_id', 'campground_id', 'created_at'],
+        where: {
+            user_id,
+            campground_id
+        }
+    });
+}
+
 // Save new campsite
-Saved.saveCampsite = async (data) => {
-    return await Saved.create(data);
+Saved.saveCampsite = async ({ user_id, campground_id }) => {
+    const savedId = uuidv4();
+
+    return await Saved.create({
+        saved_id: savedId,
+        user_id,
+        campground_id
+    });
 };
 
 // Get all user (logged in) saved campsites
 Saved.getAllSavedCampsites = async (user) => {
     return await Saved.findAll({
-        attributes: ['saved_id', 'campsite_uri', 'created_at'],
+        attributes: ['saved_id', 'campground_id', 'created_at'],
         where: { user_id: user }
     });
 };
@@ -38,7 +56,7 @@ Saved.getAllSavedCampsites = async (user) => {
 // Get user (logged in) saved campsite detail
 Saved.getSavedDetail = async (saved_id, user) => {
     return await Saved.findOne({
-        attributes: ['saved_id', 'campsite_uri', 'created_at'],
+        attributes: ['saved_id', 'campground_id', 'created_at'],
         where: {
             saved_id,
             user_id: user
@@ -47,11 +65,11 @@ Saved.getSavedDetail = async (saved_id, user) => {
 };
 
 // Remove saved campsite (hard delete)
-Saved.removeSavedCampsite = async (saved_id, user) => {
+Saved.removeSavedCampsite = async ({ user_id, campground_id }) => {
     return await Saved.destroy({
         where: {
-            saved_id,
-            user_id: user
+            user_id,
+            campground_id
         }
     });
 };
