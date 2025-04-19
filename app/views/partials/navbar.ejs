@@ -1,8 +1,33 @@
-<div class="navbar">
-    <div class="logo">LOGO</div>
-    <nav>
-        <a href="/">Explore</a>
-        <a href="/about">About</a>
-        <a href="/login" class="login-btn">Login</a>
-    </nav>
-</div>
+<nav class="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <a href="/" class="text-white text-xl font-bold">LOGO</a>
+            </div>
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-4">
+                    <a href="/explore"
+                        class="text-white hover:text-gray-300 px-3 py-2 rounded-lg text-sm font-medium">Explore</a>
+                    <a href="/about"
+                        class="text-white hover:text-gray-300 px-3 py-2 rounded-lg text-sm font-medium">About</a>
+
+                    <% if (isAuthenticated) { %>
+                        <a href="/dashboard"
+                            class="text-white border border-white hover:bg-[var(--burnt-orange-hover)] hover:border-[var(--burnt-orange)] px-6 py-2 rounded-full text-sm font-medium transition">
+                            Dashboard
+                        </a>
+                        <a href="/logout"
+                            class="text-white border border-white hover:bg-red-600 hover:border-red-400 px-6 py-2 rounded-full text-sm font-medium transition">
+                            Logout
+                        </a>
+                        <% } else { %>
+                            <a href="/login"
+                                class="text-white border border-white hover:bg-[var(--burnt-orange-hover)] hover:border-[var(--burnt-orange)] px-6 py-2 rounded-full text-sm font-medium transition">
+                                Login
+                            </a>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

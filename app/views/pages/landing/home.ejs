@@ -1,0 +1,36 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <section class="relative h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- Gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0"></div>
+
+            <!-- Content -->
+            <div class="relative z-10 mx-auto w-screen max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
+                <div class="mx-auto max-w-prose text-center">
+                    <h1 class="text-4xl font-bold text-white sm:text-5xl">
+                        Understand user flow and increase conversions
+                    </h1>
+
+                    <p class="mt-4 text-base text-white sm:text-lg/relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, nisi. Natus, provident
+                        accusamus impedit minima harum corporis iusto.
+                    </p>
+
+                    <div class="mt-4 flex justify-center gap-4 sm:mt-6">
+                        <a class="inline-block rounded border-[var(--burnt-orange)] bg-[var(--burnt-orange)] px-5 py-3 font-medium text-white shadow-sm transition-colors hover:bg-[var(--burnt-orange-hover)]"
+                            href="/explore">
+                            Search Location
+                        </a>
+
+                        <a class="inline-block rounded border border-white px-5 py-3 font-medium text-white shadow-sm transition-colors hover:bg-white hover:text-gray-900"
+                            href="/">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
