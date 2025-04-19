@@ -1,0 +1,67 @@
+<% layout('layouts/main') %>
+
+    <div class="relative min-h-screen bg-cover bg-center" style="background-image: url('/images/hero.jpg')">
+        <!-- Dark overlay for contrast -->
+        <div class="absolute inset-0 bg-black/40"></div>
+
+        <div class="relative z-10 flex min-h-screen items-center justify-center px-6 py-12">
+            <div
+                class="bg-white/20 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-full max-w-md border border-white/20">
+                <div class="text-center">
+                    <a href="/">
+                        <img class="mx-auto h-10 w-auto"
+                            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=orange&shade=600"
+                            alt="Your Company" />
+                    </a>
+                    <h2 class="mt-6 text-2xl font-bold tracking-tight text-white">Create your account</h2>
+                </div>
+
+                <form class="mt-8 space-y-6" id="registerForm" method="POST">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-white">Email Address</label>
+                        <input id="email" name="email" type="email" value="" autocomplete="email" required
+                            class="mt-1 block w-full rounded-md border-white/30 bg-white/10 px-3 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[var(--burnt-orange)] sm:text-sm" />
+                        <p id="email-error" class="error-msg text-sm" style="color:red;"></p>
+                    </div>
+
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-white">Username</label>
+                        <input id="username" name="username" type="text" value="" autocomplete="username" required
+                            class="mt-1 block w-full rounded-md border-white/30 bg-white/10 px-3 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[var(--burnt-orange)] sm:text-sm" />
+                        <p id="username-error" class="error-msg text-sm" style="color:red;"></p>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-white">Password</label>
+                        <input id="password" name="password" type="password" autocomplete="new-password" required
+                            class="mt-1 block w-full rounded-md border-white/30 bg-white/10 px-3 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[var(--burnt-orange)] sm:text-sm" />
+                        <p id="password-error" class="error-msg text-sm" style="color:red;"></p>
+                    </div>
+
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-medium text-white">Confirm
+                            Password</label>
+                        <input id="confirmPassword" name="confirmPassword" type="password" required
+                            class="mt-1 block w-full rounded-md border-white/30 bg-white/10 px-3 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[#BF5B04] sm:text-sm" />
+                        <p id="confirmPassword-error" class="error-msg text-sm" style="color:red;"></p>
+                    </div>
+
+                    <div>
+                        <button type="submit"
+                            class="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-[var(--burnt-orange)] hover:bg-[var(--burnt-orange-hover)] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--burnt-orange)]">
+                            Register
+                        </button>
+                    </div>
+                </form>
+
+
+                <p class="mt-6 text-center text-sm text-white/80">
+                    Already have an account?
+                    <a href="/login"
+                        class="font-medium text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">
+                        Log in
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
