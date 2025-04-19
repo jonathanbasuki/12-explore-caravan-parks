@@ -3,32 +3,37 @@ const { fetchCampgrounds, getCampgroundDetail } = require('../services/Campgroun
 // Fetch campgrounds 
 exports.fetchCampgrounds = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = 10;
-        const location = req.query.location || 'CA';
+        const { state, page = 1, limit = 10 } = req.query;
 
-        const data = await fetchCampgrounds(location, page, limit);
+        const itemsPerPage = 10;
+        const offset = (parseInt(page) - 1) * itemsPerPage;
 
-        res.json(data);
+        const results = await fetchCampgrounds(state, parseInt(limit), offset);
+
+        return res.json(results);
     } catch (error) {
-        console.error('Controller Error:', error);
-
-        res.status(500).json({ error: 'Failed to get campground data' });
+        return res.status(500).json({ status: 500, message: 'Internal Server Error' });
     }
 };
+
 
 // Get campground detail
 exports.getCampgroundDetail = async (req, res) => {
     try {
-        const state = req.query.state
-        const campground = req.query.campground
+        const campground_id = req.params.campground_id;
 
-        const data = await getCampgroundDetail(state, campground);
+        const result = await getCampgroundDetail(campground_id);
 
-        res.json(data);
+        res.status(200).json({
+            status: 200,
+            message: 'Campground details retrieved successfully!',
+            data: result
+        });
     } catch (error) {
-        console.error('Controller Error:', error);
-
-        res.status(500).json({ error: 'Failed to get campground data' });
+        res.status(500).json({
+            status: 500,
+            message: 'Failed to fetch campground details',
+            error: error.message
+        });
     }
 }
