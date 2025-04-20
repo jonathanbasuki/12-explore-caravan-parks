@@ -178,9 +178,9 @@
                 <div class="md:w-1/3 mt-10 md:mt-0 space-y-10">
                     <!-- Booking Form -->
                     <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Reserve Your Spot</h2>
                         <% if (isAuthenticated) { %>
                             <% if (!isBooked) { %>
-                                <h2 class="text-lg font-semibold text-gray-800">Reserve Your Spot</h2>
                                 <form action="/bookings" method="POST" class="space-y-4 mt-4">
                                     <input type="hidden" name="campground_id" value="<%= campground.id %>" />
                                     <div>

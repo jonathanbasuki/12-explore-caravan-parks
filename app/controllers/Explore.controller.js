@@ -13,7 +13,7 @@ exports.renderExplorePage = (req, res) => {
 exports.renderResultPage = async (req, res) => {
     const { location, page = 1, limit = 10 } = req.query;
 
-    const response = await fetch(`http://localhost:3000/api/campgrounds?state=${location}&page=${page}&limit=${limit}`);
+    const response = await fetch(`${process.env.BASE_URL}/api/campgrounds?state=${location}&page=${page}&limit=${limit}`);
     const results = await response.json();
 
     res.render('pages/explore/search', {
@@ -39,7 +39,7 @@ exports.renderDetailPage = async (req, res) => {
         }
 
         // Fetch campground detail
-        const campgroundResponse = await fetch(`http://localhost:3000/api/campgrounds/${campgroundId}`);
+        const campgroundResponse = await fetch(`${process.env.BASE_URL}/api/campgrounds/${campgroundId}`);
         const campgroundData = await campgroundResponse.json();
 
         if (!campgroundResponse.ok || !campgroundData.data) {
@@ -47,7 +47,7 @@ exports.renderDetailPage = async (req, res) => {
         }
 
         // Fetch reviews
-        const reviewResponse = await fetch(`http://localhost:3000/reviews?campground_id=${campgroundId}`);
+        const reviewResponse = await fetch(`${process.env.BASE_URL}/reviews?campground_id=${campgroundId}`);
         const reviewData = await reviewResponse.json();
 
         if (!reviewResponse.ok || !reviewData.data) {
