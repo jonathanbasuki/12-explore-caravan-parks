@@ -60,10 +60,15 @@ Saved.getLatestSaved = async (user_id) => {
 }
 
 // Get all user (logged in) saved campsites
-Saved.getAllSavedCampsites = async (user) => {
+Saved.getAllSavedCampgrounds = async (user_id) => {
     return await Saved.findAll({
         attributes: ['saved_id', 'campground_id', 'created_at'],
-        where: { user_id: user }
+        where: {
+            user_id
+        },
+        order: [
+            ['created_at', 'DESC']
+        ],
     });
 };
 

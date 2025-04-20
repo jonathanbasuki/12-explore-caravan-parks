@@ -49,9 +49,12 @@ exports.renderReviewHistory = async (req, res) => {
 }
 
 // Booking history page
-exports.renderWishlistPage = (req, res) => {
+exports.renderWishlistPage = async (req, res) => {
+    const wishlist = await savedService.getAllSavedCampgrounds(req.user.id);
+
     res.render('pages/dashboard/saved_campgrounds', {
         title: "Saved Campgrounds",
-        scripts: []
+        scripts: [],
+        saved_campgrounds: wishlist
     });
 }

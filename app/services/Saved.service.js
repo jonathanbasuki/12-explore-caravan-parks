@@ -16,3 +16,21 @@ exports.getLatestSavedCampgrounds = async (user_id) => {
 
     return results;
 };
+
+exports.getAllSavedCampgrounds = async (user_id) => {
+    const savedItems = await Saved.getAllSavedCampgrounds(user_id);
+
+    const results = await Promise.all(savedItems.map(async (saved) => {
+        const campground = await campgroundService.getCampgroundDetail(saved.campground_id);
+
+        return {
+            saved_id: saved.saved_id,
+            campground_id: saved.campground_id,
+            campground_name: campground?.name || 'Unknown',
+            campground_image: campground?.media_urls[0] || '/images/hero.jpg',
+            date: saved.created_at
+        };
+    }));
+
+    return results;
+};
