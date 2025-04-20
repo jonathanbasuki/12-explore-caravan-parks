@@ -44,6 +44,8 @@ app.use(express.static(path.join(__dirname, 'src'))); // Path to scripts
 app.use(checkAuthStatus);
 app.use(methodOverride('_method'));
 
+// Model asscociations
+const { User, Review } = require('./app/models/associations.js');
 
 // Routing
 app.use(authRoute);

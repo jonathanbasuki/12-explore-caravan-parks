@@ -1,7 +1,9 @@
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require('uuid');
-
 const sequelize = require("../config/db.conf");
+
+// Import User model
+const User = require("../models/User.model");
 
 const Review = sequelize.define('Review', {
     review_id: {
@@ -45,15 +47,18 @@ Review.addCampgroundReview = async ({ user_id, campground_id, rating, comment })
     });
 };
 
-// Get campgrounds review
+// Get campground reviews with the username
 Review.getCampgroundReview = async (campground_id) => {
     return await Review.findAll({
         attributes: ['review_id', 'rating', 'comment'],
-        where: {
-            campground_id
-        }
+        where: { campground_id },
+        include: [{
+            model: User,
+            as: 'user',
+            attributes: ['username']  // Get the username of the user who made the review
+        }]
     });
-}
+};
 
 // Update campground review
 Review.updateCampgroundReview = async (review_id, data) => {
@@ -66,7 +71,6 @@ Review.updateCampgroundReview = async (review_id, data) => {
 
     if (!updated) return null;
 
-    // Fetch and return the updated booking details
     return await Review.findByPk(review_id, {
         attributes: ['review_id', 'updated_at']
     });
@@ -82,4 +86,4 @@ Review.deleteCampgroundReview = async (review_id, user) => {
     });
 };
 
-module.exports = Review
+module.exports = Review;
