@@ -28,8 +28,11 @@ exports.renderResultPage = async (req, res) => {
 exports.renderDetailPage = async (req, res) => {
     try {
         const campgroundId = req.params.campground_id;
+        let saved = false;
 
-        const saved = await Saved.checkSavedByUser({ user_id: req.user?.id, campground_id: req.params.campground_id });
+        if (req.user) {
+            saved = await Saved.checkSavedByUser({ user_id: req.user.id, campground_id: req.params.campground_id });
+        }
 
         // Fetch campground detail
         const campgroundResponse = await fetch(`http://localhost:3000/api/campgrounds/${campgroundId}`);
