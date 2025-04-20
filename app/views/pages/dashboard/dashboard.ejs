@@ -18,42 +18,50 @@
                         <div class="text-white p-6 rounded-lg shadow-md backdrop-blur-sm bg-white/10">
                             <h2 class="text-xl font-semibold mb-4">Booking History</h2>
                             <div class="space-y-4">
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Beautiful Camp Lake Front</span>
-                                    <span class="text-sm">12/10/2023</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Cozy Tent by the Lake</span>
-                                    <span class="text-sm">05/15/2024</span>
-                                </div>
-                                <a href="/dashboard/booking-history"
-                                    class="text-base flex items-center gap-2 text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)] mt-4">View
-                                    all bookings
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor"
-                                        class="w-4 h-4 md:w-5 md:h-5 text-current">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                    </svg>
-                                </a>
+                                <% booking_history.forEach((booking)=> { %>
+                                    <div class="flex justify-between items-start">
+                                        <span class="text-sm truncate max-w-[75%] block">
+                                            <%= booking.campground_name %>
+                                        </span>
+                                        <span class="text-sm text-gray-300 whitespace-nowrap">
+                                            <%= new Date(booking.check_in).toLocaleDateString('id-ID') %>
+                                        </span>
+                                    </div>
+                                    <% }) %>
+
+                                        <a href="/dashboard/booking-history"
+                                            class="text-base flex items-center gap-2 text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)] mt-4">
+                                            View all bookings
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="w-4 h-4 md:w-5 md:h-5 text-current">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                            </svg>
+                                        </a>
                             </div>
                         </div>
 
-                        <!-- Payment History Section -->
+                        <!-- Review History Section -->
                         <div class="text-white p-6 rounded-lg shadow-md backdrop-blur-sm bg-white/10">
-                            <h2 class="text-xl font-semibold mb-4">Payment History</h2>
+                            <h2 class="text-xl font-semibold mb-4">Comment History</h2>
                             <div class="space-y-4">
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Booking: Beautiful Camp Lake Front</span>
-                                    <span class="text-sm">$150</span>
+                                <div class="flex justify-between items-start">
+                                    <span class="text-sm truncate max-w-[75%] block">
+                                        "Amazing view and peaceful atmosphere! Would definitely come again with family
+                                        and friends."
+                                    </span>
+                                    <span class="text-sm text-gray-300 whitespace-nowrap">April 18, 2025</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Booking: Cozy Tent by the Lake</span>
-                                    <span class="text-sm">$200</span>
+                                <div class="flex justify-between items-start">
+                                    <span class="text-sm truncate max-w-[75%] block">
+                                        "Loved the cozy tent by the lake. The stars were beautiful at night!"
+                                    </span>
+                                    <span class="text-sm text-gray-300 whitespace-nowrap">April 12, 2025</span>
                                 </div>
-                                <a href="/dashboard/payment-history"
-                                    class="text-base flex items-center gap-2 text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)] mt-4">View
-                                    all payments
+                                <a href="/dashboard/comment-history"
+                                    class="text-base flex items-center gap-2 text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)] mt-4">
+                                    View all comments
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
                                         class="w-4 h-4 md:w-5 md:h-5 text-current">
@@ -68,19 +76,27 @@
                         <div class="text-white p-6 rounded-lg shadow-md backdrop-blur-sm bg-white/10">
                             <h2 class="text-xl font-semibold mb-4">Wishlist</h2>
                             <div class="space-y-4">
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Mountain View Glamping</span>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm truncate max-w-[75%] block">
+                                        Mountain View Glamping
+                                    </span>
                                     <button
-                                        class="text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">Remove</button>
+                                        class="text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">
+                                        Remove
+                                    </button>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Lakeside Luxury Tents</span>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm truncate max-w-[75%] block">
+                                        Lakeside Luxury Tents
+                                    </span>
                                     <button
-                                        class="text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">Remove</button>
+                                        class="text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">
+                                        Remove
+                                    </button>
                                 </div>
                                 <a href="/dashboard/saved-campgrounds"
-                                    class="text-base flex items-center gap-2 text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)] mt-4">View
-                                    all wishlist items
+                                    class="text-base flex items-center gap-2 text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)] mt-4">
+                                    View all wishlist items
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
                                         class="w-4 h-4 md:w-5 md:h-5 text-current">
@@ -90,6 +106,7 @@
                                 </a>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

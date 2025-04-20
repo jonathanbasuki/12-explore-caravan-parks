@@ -3,6 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 
 const sequelize = require('../config/db.conf');
 
+const { getCampgroundDetail } = require('../services/Campground.service');
+
 const Booking = sequelize.define('Booking', {
     booking_id: {
         type: DataTypes.STRING,
@@ -60,12 +62,27 @@ Booking.createBooking = async ({ user_id, campground_id, checkin, checkout }) =>
     });
 };
 
+// Get 5 latest booking history 
+Booking.getLatestBooking = async (user_id) => {
+    return await Booking.findAll({
+        attributes: ['booking_id', 'campground_id', 'check_in'],
+        where: {
+            user_id,
+            deleted_at: null
+        },
+        order: [
+            ['check_in', 'DESC']
+        ],
+        limit: 5,
+    })
+}
+
 // Get all bookings
-Booking.getAllBookings = async (user) => {
+Booking.getAllBookings = async (user_id) => {
     return await Booking.findAll({
         attributes: ['booking_id', 'check_in', 'check_out', 'status', 'created_at', 'updated_at'],
         where: {
-            user_id: user,
+            user_id,
             deleted_at: null
         }
     });

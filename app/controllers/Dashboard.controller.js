@@ -1,9 +1,19 @@
+const bookingService = require('../services/Booking.service');
+
 // Dashboard page
-exports.renderDashboardPage = (req, res) => {
-    res.render('pages/dashboard/dashboard', {
-        title: "Dashboard",
-        scripts: []
-    })
+exports.renderDashboardPage = async (req, res) => {
+    try {
+        const bookings = await bookingService.getLatestBookingsWithCampground(req.user.id);
+
+        res.render('pages/dashboard/dashboard', {
+            title: "Dashboard",
+            booking_history: bookings,
+            scripts: []
+        })
+    } catch (error) {
+        return res.status(500).json({ status: 500, message: 'Internal Server Error' });
+    }
+
 }
 
 // Booking history page
