@@ -1,6 +1,12 @@
 const Saved = require('../models/Saved.model');
 
-// Save campsite
+/**
+ * Saves a campsite to the logged-in user's saved list.
+ * @param {Object} req - Express request object containing user ID in req.user and campground ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Redirects to the campground page on success or returns error response
+ * @throws {Error} If saving the campsite fails
+ */
 exports.saveCampsite = async (req, res) => {
     try {
         const user_id = req.user.id;
@@ -17,7 +23,13 @@ exports.saveCampsite = async (req, res) => {
     }
 };
 
-// Get all user (logged-in) saved campsites
+/**
+ * Retrieves all saved campsites for the logged-in user.
+ * @param {Object} req - Express request object containing user ID in req.user
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with saved campsites data or error response
+ * @throws {Error} If fetching saved campsites fails
+ */
 exports.getAllSavedCampsites = async (req, res) => {
     try {
         const campsites = await Saved.getAllSavedCampsites(req.user.id);
@@ -35,7 +47,13 @@ exports.getAllSavedCampsites = async (req, res) => {
     }
 };
 
-// Access user (logged-in) saved campsite detail
+/**
+ * Retrieves details of a specific saved campsite for the logged-in user.
+ * @param {Object} req - Express request object containing saved ID in params and user ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with saved campsite details or error response
+ * @throws {Error} If fetching saved campsite details fails
+ */
 exports.getSavedDetail = async (req, res) => {
     try {
         const campsite = await Saved.getSavedDetail(req.params.saved_id, req.body.user_id);
@@ -58,7 +76,13 @@ exports.getSavedDetail = async (req, res) => {
     }
 };
 
-// Remove user (logged-in) saved campsite
+/**
+ * Removes a campsite from the logged-in user's saved list.
+ * @param {Object} req - Express request object containing user ID in req.user and campground ID in params
+ * @param {Object} res - Express response object
+ * @returns {void} Redirects to the previous page on success or returns error response
+ * @throws {Error} If removing the saved campsite fails
+ */
 exports.removeSavedCampsite = async (req, res) => {
     try {
         const user_id = req.user.id;
@@ -72,7 +96,6 @@ exports.removeSavedCampsite = async (req, res) => {
         });
 
         res.redirect('back');
-
     } catch (err) {
         res.status(500).json({
             status: 500,

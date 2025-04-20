@@ -3,17 +3,20 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/User.model');
 
-// Login page route
+/**
+ * Renders the login page.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {void} Renders the login page with flash messages if applicable
+ */
 exports.renderLoginPage = (req, res) => {
     if (req.query.flash === 'registered') {
         req.flash('success_msg', 'User registered successfully!');
-
         return res.redirect('/login');
     }
 
     if (req.query.flash === 'failed') {
         req.flash('error_msg', 'Something went wrong. Please try again.');
-
         return res.redirect('/login');
     }
 
@@ -24,7 +27,13 @@ exports.renderLoginPage = (req, res) => {
     });
 }
 
-// Validate user login 
+/**
+ * Validates user login credentials and issues a JWT token upon success.
+ * @param {Object} req - Express request object containing identifier and password
+ * @param {Object} res - Express response object
+ * @returns {void} Renders login page with error or redirects to dashboard
+ * @throws {Error} If database query or bcrypt comparison fails
+ */
 exports.validateLogin = async (req, res) => {
     const { identifier, password } = req.body;
 
@@ -55,7 +64,6 @@ exports.validateLogin = async (req, res) => {
             email: user.email
         }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Simpan token ke cookie (opsional)
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/dashboard');
     } catch (err) {
@@ -67,11 +75,15 @@ exports.validateLogin = async (req, res) => {
     }
 };
 
-// Register page route
+/**
+ * Renders the registration page.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {void} Renders the registration page with flash message if applicable
+ */
 exports.renderRegisterPage = (req, res) => {
     if (req.query.flash === 'failed') {
         req.flash('error_msg', 'Something went wrong. Please try again.');
-
         return res.redirect('/register');
     }
 
@@ -84,7 +96,12 @@ exports.renderRegisterPage = (req, res) => {
     });
 }
 
-// Forgot password page route
+/**
+ * Renders the forgot password page.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {void} Renders the forgot password page
+ */
 exports.renderForgotPage = (req, res) => {
     res.render('pages/auth/forgot_password', {
         title: "Forgot Password",
@@ -92,10 +109,14 @@ exports.renderForgotPage = (req, res) => {
     });
 }
 
-// Handle user logout
+/**
+ * Handles user logout by clearing the JWT cookie and setting a flash message.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {void} Clears token cookie and redirects to login page
+ */
 exports.logout = (req, res) => {
-    req.flash('success_msg', 'Logout berhasil!');  // Set flash message
-
+    req.flash('success_msg', 'Logout berhasil!');
     res.clearCookie('token');
-    res.redirect('/login');  // Redirect to login after logout
+    res.redirect('/login');
 };

@@ -1,10 +1,16 @@
 const Booking = require('../models/Booking.model');
 
-// Create new booking
+/**
+ * Creates a new booking for a campground.
+ * @param {Object} req - Express request object containing user ID and booking details (campground_id, checkin, checkout)
+ * @param {Object} res - Express response object
+ * @returns {void} Redirects to the campground page on success or returns error response
+ * @throws {Error} If booking creation fails
+ */
 exports.createBooking = async (req, res) => {
     try {
         const user_id = req.user.id;
-        const { campground_id, checkin, checkout } = req.body
+        const { campground_id, checkin, checkout } = req.body;
 
         const booking = await Booking.createBooking({ user_id, campground_id, checkin, checkout });
 
@@ -17,7 +23,13 @@ exports.createBooking = async (req, res) => {
     }
 };
 
-// Get user (logged in) booking data
+/**
+ * Retrieves all bookings for the logged-in user.
+ * @param {Object} req - Express request object containing user ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with booking data or error response
+ * @throws {Error} If fetching bookings fails
+ */
 exports.getAllBookings = async (req, res) => {
     try {
         const bookings = await Booking.getAllBookings(req.body.user_id);
@@ -35,7 +47,13 @@ exports.getAllBookings = async (req, res) => {
     }
 };
 
-// Get user (logged in) booking detail 
+/**
+ * Retrieves details of a specific booking for the logged-in user.
+ * @param {Object} req - Express request object containing booking ID in params and user ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with booking details or error response
+ * @throws {Error} If fetching booking details fails
+ */
 exports.getBookingDetail = async (req, res) => {
     try {
         const booking = await Booking.getBookingDetail(req.params.booking_id, req.body.user_id);
@@ -58,6 +76,13 @@ exports.getBookingDetail = async (req, res) => {
     }
 };
 
+/**
+ * Updates a specific booking's details.
+ * @param {Object} req - Express request object containing booking ID in params and updated details in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with updated booking data or error response
+ * @throws {Error} If updating booking fails
+ */
 exports.updateBooking = async (req, res) => {
     try {
         const updatedBooking = await Booking.updateBooking(req.params.booking_id, req.body);
@@ -83,7 +108,13 @@ exports.updateBooking = async (req, res) => {
     }
 };
 
-
+/**
+ * Soft deletes a specific booking for the logged-in user.
+ * @param {Object} req - Express request object containing booking ID in params and user ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with deleted booking data or error response
+ * @throws {Error} If soft deletion fails
+ */
 exports.softDeleteBooking = async (req, res) => {
     try {
         const deletedBooking = await Booking.softDeleteBooking(req.params.booking_id, req.body.user_id);

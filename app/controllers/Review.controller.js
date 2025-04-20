@@ -1,6 +1,12 @@
 const Review = require('../models/Review.model');
 
-// Add campground review
+/**
+ * Adds a new review for a campground.
+ * @param {Object} req - Express request object containing user ID in req.user and review details (campground_id, rating, comment) in body
+ * @param {Object} res - Express response object
+ * @returns {void} Redirects to the campground page on success or returns error response
+ * @throws {Error} If adding the review fails
+ */
 exports.addCampgroundReview = async (req, res) => {
     try {
         const { campground_id, rating, comment } = req.body;
@@ -22,8 +28,13 @@ exports.addCampgroundReview = async (req, res) => {
     }
 };
 
-
-// Get campground review
+/**
+ * Retrieves all reviews for a specific campground.
+ * @param {Object} req - Express request object containing campground ID in query
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with review data or error response
+ * @throws {Error} If fetching reviews fails
+ */
 exports.getCampgroundReview = async (req, res) => {
     try {
         const reviews = await Review.getCampgroundReview(req.query.campground_id);
@@ -41,7 +52,13 @@ exports.getCampgroundReview = async (req, res) => {
     }
 };
 
-// Update campground review
+/**
+ * Updates an existing campground review.
+ * @param {Object} req - Express request object containing review ID in params and updated review details in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with updated review data or error response
+ * @throws {Error} If updating the review fails
+ */
 exports.updateCampgroundReview = async (req, res) => {
     try {
         const updatedReview = await Review.updateCampgroundReview(req.params.review_id, req.body);
@@ -64,9 +81,15 @@ exports.updateCampgroundReview = async (req, res) => {
             error: err.message
         });
     }
-}
+};
 
-// Delete campground review
+/**
+ * Deletes a specific campground review.
+ * @param {Object} req - Express request object containing review ID in params and user ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with success message or error response
+ * @throws {Error} If deleting the review fails
+ */
 exports.deleteCampgroundReview = async (req, res) => {
     try {
         const deleted = await Review.deleteCampgroundReview(req.params.review_id, req.body.user_id);

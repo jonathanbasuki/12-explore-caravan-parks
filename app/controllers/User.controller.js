@@ -1,6 +1,12 @@
 const User = require('../models/User.model');
 
-// Register new user
+/**
+ * Registers a new user.
+ * @param {Object} req - Express request object containing user details in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with registered user data or error response
+ * @throws {Error} If user creation fails
+ */
 exports.createUser = async (req, res) => {
     try {
         const user = await User.createUser(req.body);
@@ -16,9 +22,15 @@ exports.createUser = async (req, res) => {
             error: err.message
         });
     }
-}
+};
 
-// Get all users
+/**
+ * Retrieves all users.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with all users' data or error response
+ * @throws {Error} If fetching users fails
+ */
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.getAllUsers();
@@ -34,9 +46,15 @@ exports.getAllUsers = async (req, res) => {
             error: err.message
         });
     }
-}
+};
 
-// Get user detail
+/**
+ * Retrieves details of a specific user by ID.
+ * @param {Object} req - Express request object containing user ID in params
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with user details or error response
+ * @throws {Error} If fetching user details fails
+ */
 exports.getUserDetail = async (req, res) => {
     try {
         const user = await User.getUserDetail(req.params.user_id);
@@ -57,9 +75,15 @@ exports.getUserDetail = async (req, res) => {
             error: err.message
         });
     }
-}
+};
 
-// Update user detail
+/**
+ * Updates details of a specific user.
+ * @param {Object} req - Express request object containing user ID in params and updated details in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with updated user data or error response
+ * @throws {Error} If updating user details fails
+ */
 exports.updateUserDetail = async (req, res) => {
     try {
         const updatedUser = await User.updateUserDetail(req.params.user_id, req.body);
@@ -82,9 +106,15 @@ exports.updateUserDetail = async (req, res) => {
             error: err.message
         });
     }
-}
+};
 
-// Soft delete user
+/**
+ * Soft deletes a specific user by ID.
+ * @param {Object} req - Express request object containing user ID in params
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with deleted user data or error response
+ * @throws {Error} If soft deleting user fails
+ */
 exports.softDeleteUser = async (req, res) => {
     try {
         const deletedUser = await User.softDeleteUser(req.params.user_id);
@@ -107,4 +137,4 @@ exports.softDeleteUser = async (req, res) => {
             error: err.message
         });
     }
-}
+};

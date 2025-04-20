@@ -1,6 +1,12 @@
 const Payment = require('../models/Payment.model');
 
-// Save new payment
+/**
+ * Saves a new payment record.
+ * @param {Object} req - Express request object containing payment details in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with saved payment data or error response
+ * @throws {Error} If saving payment fails
+ */
 exports.savePayment = async (req, res) => {
     try {
         const payment = await Payment.savePayment(req.body);
@@ -16,9 +22,15 @@ exports.savePayment = async (req, res) => {
             error: err.message
         });
     }
-}
+};
 
-// Get specific payment details
+/**
+ * Retrieves details of a specific payment for a booking.
+ * @param {Object} req - Express request object containing booking ID in params and user ID in body
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with payment details or error response
+ * @throws {Error} If fetching payment details fails
+ */
 exports.getPaymentDetails = async (req, res) => {
     try {
         const payment = await Payment.getPaymentDetails(req.params.booking_id, req.body.user_id);

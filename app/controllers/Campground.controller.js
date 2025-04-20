@@ -1,6 +1,12 @@
 const { fetchCampgrounds, getCampgroundDetail } = require('../services/Campground.service');
 
-// Fetch campgrounds 
+/**
+ * Fetches a list of campgrounds with pagination and optional state filtering.
+ * @param {Object} req - Express request object containing query parameters (state, page, limit)
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with campground data or error response
+ * @throws {Error} If fetching campgrounds fails
+ */
 exports.fetchCampgrounds = async (req, res) => {
     try {
         const { state, page = 1, limit = 10 } = req.query;
@@ -16,8 +22,13 @@ exports.fetchCampgrounds = async (req, res) => {
     }
 };
 
-
-// Get campground detail
+/**
+ * Retrieves details of a specific campground by ID.
+ * @param {Object} req - Express request object containing campground ID in params
+ * @param {Object} res - Express response object
+ * @returns {void} Returns JSON with campground details or error response
+ * @throws {Error} If fetching campground details fails
+ */
 exports.getCampgroundDetail = async (req, res) => {
     try {
         const campground_id = req.params.campground_id;
@@ -36,4 +47,4 @@ exports.getCampgroundDetail = async (req, res) => {
             error: error.message
         });
     }
-}
+};
