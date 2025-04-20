@@ -36,6 +36,17 @@ const Booking = sequelize.define('Booking', {
     deletedAt: 'deleted_at'
 });
 
+// Check if user has reserved
+Booking.checkBookingByUser = async ({ user_id, campground_id }) => {
+    return await Booking.findOne({
+        attributes: ['booking_id', 'campground_id', 'check_in', 'check_out', 'status', 'created_at'],
+        where: {
+            user_id,
+            campground_id
+        }
+    });
+}
+
 // Create a new booking
 Booking.createBooking = async ({ user_id, campground_id, checkin, checkout }) => {
     const bookingId = uuidv4();

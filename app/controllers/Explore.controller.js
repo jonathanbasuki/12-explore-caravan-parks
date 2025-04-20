@@ -1,4 +1,5 @@
 const Saved = require('../models/Saved.model');
+const Booking = require('../models/Booking.model');
 
 // Explore page (search box)
 exports.renderExplorePage = (req, res) => {
@@ -28,10 +29,13 @@ exports.renderResultPage = async (req, res) => {
 exports.renderDetailPage = async (req, res) => {
     try {
         const campgroundId = req.params.campground_id;
+
         let saved = false;
+        let booked = false;
 
         if (req.user) {
             saved = await Saved.checkSavedByUser({ user_id: req.user.id, campground_id: req.params.campground_id });
+            booked = await Booking.checkBookingByUser({ user_id: req.user.id, campground_id: req.params.campground_id });
         }
 
         // Fetch campground detail
@@ -55,6 +59,7 @@ exports.renderDetailPage = async (req, res) => {
         res.render('pages/explore/details', {
             title: "Campground Details",
             isSaved: saved,
+            isBooked: booked,
             campground: campgroundData.data,
             reviews: reviewData.data,
             scripts: []
