@@ -78,13 +78,16 @@ Booking.getLatestBooking = async (user_id) => {
 }
 
 // Get all bookings
-Booking.getAllBookings = async (user_id) => {
+Booking.getBookingHistory = async (user_id) => {
     return await Booking.findAll({
-        attributes: ['booking_id', 'check_in', 'check_out', 'status', 'created_at', 'updated_at'],
+        attributes: ['booking_id', 'campground_id', 'check_in', 'check_out', 'status', 'created_at', 'updated_at'],
         where: {
             user_id,
             deleted_at: null
-        }
+        },
+        order: [
+            ['check_in', 'DESC']
+        ],
     });
 };
 

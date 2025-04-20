@@ -23,22 +23,18 @@ exports.renderDashboardPage = async (req, res) => {
 }
 
 // Booking history page
-exports.renderBookingHistory = (req, res) => {
-    res.render('pages/dashboard/booking_history', {
-        title: "Booking History",
-        scripts: [],
-        bookings: [
-            {
-                place: 'Mountain View Camp',
-                location: 'California, USA',
-                image: '/images/hero.jpg',
-                checkIn: '2025-04-01',
-                checkOut: '2025-04-03',
-                status: 'Completed',
-            },
-            // more bookings...
-        ]
-    })
+exports.renderBookingHistory = async (req, res) => {
+    try {
+        const bookings = await bookingService.getBookingHistory(req.user.id);
+
+        res.render('pages/dashboard/booking_history', {
+            title: "Booking History",
+            scripts: [],
+            booking_history: bookings
+        });
+    } catch (error) {
+        return res.status(500).json({ status: 500, message: 'Internal Server Error' });
+    }
 }
 
 // Payment history page
