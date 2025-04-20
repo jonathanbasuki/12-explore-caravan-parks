@@ -45,6 +45,20 @@ Saved.saveCampsite = async ({ user_id, campground_id }) => {
     });
 };
 
+// Get 5 latest wishlist history 
+Saved.getLatestSaved = async (user_id) => {
+    return await Saved.findAll({
+        attributes: ['saved_id', 'campground_id'],
+        where: {
+            user_id
+        },
+        order: [
+            ['created_at', 'DESC']
+        ],
+        limit: 5,
+    })
+}
+
 // Get all user (logged in) saved campsites
 Saved.getAllSavedCampsites = async (user) => {
     return await Saved.findAll({

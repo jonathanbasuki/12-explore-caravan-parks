@@ -47,6 +47,20 @@ Review.addCampgroundReview = async ({ user_id, campground_id, rating, comment })
     });
 };
 
+// Get 5 latest review history 
+Review.getLatestReview = async (user_id) => {
+    return await Review.findAll({
+        attributes: ['review_id', 'campground_id', 'comment', 'created_at'],
+        where: {
+            user_id
+        },
+        order: [
+            ['created_at', 'DESC']
+        ],
+        limit: 5,
+    })
+}
+
 // Get campground reviews with the username
 Review.getCampgroundReview = async (campground_id) => {
     return await Review.findAll({
