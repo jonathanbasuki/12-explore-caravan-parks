@@ -1,6 +1,14 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware: Redirect user if not logged in
+/**
+ * Middleware to authenticate the user based on JWT token stored in cookies.
+ * If token is missing or invalid, user is redirected to the login page.
+ *
+ * @function authenticateUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 exports.authenticateUser = (req, res, next) => {
     const token = req.cookies.token;
 
@@ -19,7 +27,15 @@ exports.authenticateUser = (req, res, next) => {
     }
 };
 
-// Middleware: Redirect user if already logged in
+/**
+ * Middleware to redirect authenticated users away from pages like login or register.
+ * If a valid token is found, redirects the user to the dashboard.
+ *
+ * @function redirectIfAuthenticated
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 exports.redirectIfAuthenticated = (req, res, next) => {
     const token = req.cookies.token;
 
@@ -36,7 +52,16 @@ exports.redirectIfAuthenticated = (req, res, next) => {
     }
 };
 
-// Middleware: Inject auth status and user to res.locals for frontend
+/**
+ * Middleware to check authentication status and make it available to views.
+ * Sets `res.locals.isAuthenticated` and `res.locals.user` for template rendering.
+ * Also injects user into `req.user` for consistency in backend access.
+ *
+ * @function checkAuthStatus
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 exports.checkAuthStatus = (req, res, next) => {
     const token = req.cookies.token;
 
@@ -51,7 +76,7 @@ exports.checkAuthStatus = (req, res, next) => {
         res.locals.isAuthenticated = true;
         res.locals.user = decoded; // ⬅️ this can now be used in views like: <%= user.username %>
 
-        // Juga injek ke req.user untuk konsistensi
+        // Also inject into req.user for backend consistency
         req.user = decoded;
 
         next();

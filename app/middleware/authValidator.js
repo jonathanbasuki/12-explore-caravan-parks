@@ -1,5 +1,18 @@
 const { body } = require('express-validator');
 
+/**
+ * Validation rules for user registration.
+ * Uses express-validator to ensure username, email, password, and password confirmation are valid.
+ *
+ * @constant
+ * @type {Array<import('express-validator').ValidationChain>}
+ *
+ * @description
+ * - `username` must not be empty and must be at least 3 characters long.
+ * - `email` must be a valid email format.
+ * - `password` must be at least 8 characters long.
+ * - `confirmPassword` must match the `password` field.
+ */
 exports.registerValidation = [
     body('username')
         .trim()
