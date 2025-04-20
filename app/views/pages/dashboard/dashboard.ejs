@@ -98,10 +98,13 @@
                                                 <%= wishlist.campground_name %>
                                             </span>
                                             <span class="text-sm text-gray-300 whitespace-nowrap">
-                                                <button
-                                                    class="text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">
-                                                    Remove
-                                                </button>
+                                                <form action="/saved/<%= wishlist.campground_id %>?_method=DELETE" method="POST"
+                                                    class="inline-flex">
+                                                    <button type="submit"
+                                                        class="text-[var(--burnt-orange-text)] hover:text-[var(--burnt-orange-text-hover)]">
+                                                        Remove
+                                                    </button>
+                                                </form>
                                             </span>
                                         </div>
                                         <% }) %>

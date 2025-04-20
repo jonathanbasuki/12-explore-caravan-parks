@@ -71,7 +71,8 @@ exports.removeSavedCampsite = async (req, res) => {
             message: 'Saved campsite not found.'
         });
 
-        res.redirect(`/search/campground/${campground_id}`);
+        res.redirect('back');
+
     } catch (err) {
         res.status(500).json({
             status: 500,
