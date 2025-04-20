@@ -3,7 +3,10 @@ const Booking = require('../models/Booking.model');
 // Create new booking
 exports.createBooking = async (req, res) => {
     try {
-        const booking = await Booking.createBooking(req.body);
+        const user_id = req.user.id;
+        const { checkin, checkout } = req.body
+
+        const booking = await Booking.createBooking({ user_id, checkin, checkout });
 
         res.status(201).json({
             status: 201,

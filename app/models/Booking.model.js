@@ -1,4 +1,6 @@
 const { DataTypes } = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
+
 const sequelize = require('../config/db.conf');
 
 const Booking = sequelize.define('Booking', {
@@ -31,8 +33,15 @@ const Booking = sequelize.define('Booking', {
 });
 
 // Create a new booking
-Booking.createBooking = async (data) => {
-    return await Booking.create(data);
+Booking.createBooking = async ({ user_id, checkin, checkout }) => {
+    const bookingId = uuidv4();
+
+    return await Booking.create({
+        booking_id: bookingId,
+        user_id,
+        check_in: checkin,
+        check_out: checkout
+    });
 };
 
 // Get all bookings
@@ -83,7 +92,7 @@ Booking.softDeleteBooking = async (booking_id, user) => {
             user_id: user
         }
     });
-    
+
     if (!booking) return null;
 
     await booking.destroy();
