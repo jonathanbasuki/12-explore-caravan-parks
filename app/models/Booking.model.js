@@ -12,6 +12,10 @@ const Booking = sequelize.define('Booking', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    campground_id: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     check_in: {
         type: DataTypes.DATE,
         allowNull: false
@@ -33,12 +37,13 @@ const Booking = sequelize.define('Booking', {
 });
 
 // Create a new booking
-Booking.createBooking = async ({ user_id, checkin, checkout }) => {
+Booking.createBooking = async ({ user_id, campground_id, checkin, checkout }) => {
     const bookingId = uuidv4();
 
     return await Booking.create({
         booking_id: bookingId,
         user_id,
+        campground_id,
         check_in: checkin,
         check_out: checkout
     });

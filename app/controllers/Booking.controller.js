@@ -4,15 +4,11 @@ const Booking = require('../models/Booking.model');
 exports.createBooking = async (req, res) => {
     try {
         const user_id = req.user.id;
-        const { checkin, checkout } = req.body
+        const { campground_id, checkin, checkout } = req.body
 
-        const booking = await Booking.createBooking({ user_id, checkin, checkout });
+        const booking = await Booking.createBooking({ user_id, campground_id, checkin, checkout });
 
-        res.status(201).json({
-            status: 201,
-            message: 'Booking data created successfully!',
-            data: booking
-        });
+        res.redirect(`/search/campground/${campground_id}`);
     } catch (err) {
         res.status(500).json({
             status: 500,
