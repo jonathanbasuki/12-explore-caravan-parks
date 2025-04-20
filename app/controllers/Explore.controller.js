@@ -46,10 +46,8 @@ exports.renderDetailPage = async (req, res) => {
             return res.status(500).json({ status: 500, message: 'Failed to fetch campground details' });
         }
 
-        const realCampgroundId = campgroundData.data.id;
-
         // Fetch reviews
-        const reviewResponse = await fetch(`http://localhost:3000/reviews?campground_id=${realCampgroundId}`);
+        const reviewResponse = await fetch(`http://localhost:3000/reviews?campground_id=${campgroundId}`);
         const reviewData = await reviewResponse.json();
 
         if (!reviewResponse.ok || !reviewData.data) {
