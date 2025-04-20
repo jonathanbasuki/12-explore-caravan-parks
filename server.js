@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const engine = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 
@@ -39,6 +41,24 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public'))); // Path to assets images
 app.use(express.static(path.join(__dirname, 'src'))); // Path to scripts
+
+app.use(session({
+    secret: "kelompok-12-soa",
+    resave: false,
+    saveUninitialized: false,
+}));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    const success = req.flash('success_msg');
+    const error = req.flash('error_msg');
+
+    res.locals.success_msg = success.length > 0 ? success[0] : null;
+    res.locals.error_msg = error.length > 0 ? error[0] : null;
+
+    next();
+});
 
 // Auth middleware
 app.use(checkAuthStatus);

@@ -19,11 +19,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         const result = await response.json();
 
         if (response.ok) {
-            alert('User registered successfully!');
-
-            e.target.reset();
-
-            window.location.href = '/login';
+            window.location.href = '/login?flash=registered';
         } else if (response.status === 422 && result.errors) {
             // Show validation errors under each input
             result.errors.forEach(err => {
@@ -39,9 +35,11 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
                 }
             });
         } else {
-            alert('Error: ' + (result.error || 'Something went wrong.'));
+            window.location.href = '/register?flash=failed';
+            // alert('Error: ' + (result.error || 'Something went wrong.'));
         }
     } catch (error) {
-        alert('Request failed: ' + error.message);
+        window.location.href = '/register?flash=failed';
+        // alert('Request failed: ' + error.message);
     }
 });

@@ -5,10 +5,22 @@ const User = require('../models/User.model');
 
 // Login page route
 exports.renderLoginPage = (req, res) => {
+    if (req.query.flash === 'registered') {
+        req.flash('success_msg', 'User registered successfully!');
+
+        return res.redirect('/login');
+    }
+
+    if (req.query.flash === 'failed') {
+        req.flash('error_msg', 'Something went wrong. Please try again.');
+
+        return res.redirect('/login');
+    }
+
     res.render('pages/auth/login', {
         title: "Login",
         error: null,
-        scripts: []
+        scripts: ['/js/partials/flash_message.js']
     });
 }
 
@@ -57,9 +69,18 @@ exports.validateLogin = async (req, res) => {
 
 // Register page route
 exports.renderRegisterPage = (req, res) => {
+    if (req.query.flash === 'failed') {
+        req.flash('error_msg', 'Something went wrong. Please try again.');
+
+        return res.redirect('/register');
+    }
+
     res.render('pages/auth/register', {
         title: 'Register',
-        scripts: ['/js/auth/register.js']
+        scripts: [
+            '/js/auth/register.js',
+            '/js/partials/flash_message.js'
+        ]
     });
 }
 
@@ -73,6 +94,8 @@ exports.renderForgotPage = (req, res) => {
 
 // Handle user logout
 exports.logout = (req, res) => {
+    req.flash('success_msg', 'Logout berhasil!');  // Set flash message
+
     res.clearCookie('token');
-    res.redirect('/login');
+    res.redirect('/login');  // Redirect to login after logout
 };
