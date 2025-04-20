@@ -1,0 +1,52 @@
+<% layout('layouts/main') %>
+
+    <%- include('../../partials/navbar') %>
+
+        <section class="relative min-h-screen w-full bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/images/hero.jpg')">
+
+            <!-- Black overlay -->
+            <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+            <!-- Main content -->
+            <div class="relative z-10 pt-24 pb-12 px-6">
+                <div class="max-w-7xl mx-auto text-white text-center">
+                    <h1 class="text-4xl font-bold mb-4">Review History</h1>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                        Track your payment transactions and statuses here.
+                    </p>
+                </div>
+
+                <!-- Payment grid -->
+                <div
+                    class="mt-10 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <% review_history.forEach(history=> { %>
+                        <div
+                            class="backdrop-blur bg-white/30 border border-white/10 rounded-lg shadow-lg p-4 text-white">
+                            <img src="<%= history.campground_image %>" alt="<%= history.campground_name %>"
+                                class="w-full h-40 object-cover rounded mb-3">
+                            <h2 class="text-lg font-semibold">
+                                <%= history.campground_name %>
+                            </h2>
+                            <p class="text-sm text-gray-200 italic">
+                                <%= history.address %>
+                            </p>
+                            <div class="flex text-yellow-400">
+                                <% for (let i=0; i < history.rating; i++) { %>
+                                    <span>★</span>
+                                    <% } %>
+                                        <% for (let i=0; i < 5 - history.rating; i++) { %>
+                                            <span>☆</span>
+                                            <% } %>
+                            </div>
+                            <p class="text-sm text-gray-200 italic">
+                                “<%= history.comment %>”
+                            </p>
+                            <p class="text-sm text-gray-300 text-right">
+                                <%= new Date(history.created_at).toLocaleDateString('id-ID') %>
+                            </p>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </section>

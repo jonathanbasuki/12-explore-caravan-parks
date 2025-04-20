@@ -62,17 +62,17 @@ Review.getLatestReview = async (user_id) => {
 }
 
 // Get campground reviews with the username
-Review.getCampgroundReview = async (campground_id) => {
+Review.getReviewHistory = async (user_id) => {
     return await Review.findAll({
-        attributes: ['review_id', 'rating', 'comment'],
-        where: { campground_id },
-        include: [{
-            model: User,
-            as: 'user',
-            attributes: ['username']  // Get the username of the user who made the review
-        }]
-    });
-};
+        attributes: ['review_id', 'campground_id', 'rating', 'comment', 'created_at', 'created_at', 'updated_at'],
+        where: {
+            user_id
+        },
+        order: [
+            ['created_at', 'DESC']
+        ]
+    })
+}
 
 // Update campground review
 Review.updateCampgroundReview = async (review_id, data) => {

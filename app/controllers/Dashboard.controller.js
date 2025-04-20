@@ -15,7 +15,7 @@ exports.renderDashboardPage = async (req, res) => {
             review_history: reviews,
             saved_history: wishlist,
             scripts: []
-        })
+        });
     } catch (error) {
         return res.status(500).json({ status: 500, message: 'Internal Server Error' });
     }
@@ -37,24 +37,15 @@ exports.renderBookingHistory = async (req, res) => {
     }
 }
 
-// Payment history page
-exports.renderPaymentHistory = (req, res) => {
-    res.render('pages/dashboard/payment_history', {
+// Review history page
+exports.renderReviewHistory = async (req, res) => {
+    const reviews = await reviewService.getReviewHistory(req.user.id);
+
+    res.render('pages/dashboard/review_history', {
         title: "Payment History",
         scripts: [],
-        payments: [
-            {
-                place: 'Forest Hills Camp',
-                location: 'Oregon, USA',
-                amount: 240.00,
-                date: '2025-03-18',
-                method: 'Credit Card',
-                status: 'Paid',
-                transactionId: 'TXN123456789',
-            },
-            // more entries...
-        ]
-    })
+        review_history: reviews
+    });
 }
 
 // Booking history page
@@ -62,5 +53,5 @@ exports.renderWishlistPage = (req, res) => {
     res.render('pages/dashboard/saved_campgrounds', {
         title: "Saved Campgrounds",
         scripts: []
-    })
+    });
 }
