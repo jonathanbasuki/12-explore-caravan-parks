@@ -1,5 +1,19 @@
+/**
+ * @fileoverview Service to fetch and format campground data from external API (RIDB).
+ */
+
 const axios = require('axios');
 
+/**
+ * Fetch a list of campgrounds from the external API with pagination and state filter.
+ * 
+ * @async
+ * @function
+ * @param {string} state - The U.S. state code to filter campgrounds (e.g., 'CA', 'TX').
+ * @param {number} limit - Number of items per page.
+ * @param {number} offset - Offset index for pagination.
+ * @returns {Promise<Object>} Formatted response containing campground list and pagination metadata.
+ */
 exports.fetchCampgrounds = async (state, limit, offset) => {
     try {
         const response = await axios.get(process.env.CAMPGROUND_API_URL, {
@@ -20,15 +34,20 @@ exports.fetchCampgrounds = async (state, limit, offset) => {
             throw new Error('Failed to fetch data');
         }
     } catch (error) {
-        res.status(500).json({
-            status: 500,
-            message: 'Failed to fetch campground details',
-            error: error.message
-        });
+        // Note: `res` is not defined in this context, better to throw the error
+        throw new Error(`Fetch failed: ${error.message}`);
     }
 };
 
-// Transform the response data to match the desired structure
+/**
+ * Format raw API response to a structured format with pagination data.
+ * 
+ * @function
+ * @param {Object} data - Raw data from RIDB API.
+ * @param {number} limit - Number of items per page.
+ * @param {number} offset - Offset index for pagination.
+ * @returns {Object} Formatted response object with metadata and campground list.
+ */
 const formatResponse = (data, limit, offset) => {
     const { METADATA, RECDATA } = data;
 
@@ -61,6 +80,14 @@ const formatResponse = (data, limit, offset) => {
     };
 };
 
+/**
+ * Fetch detailed campground information by ID from the external API.
+ * 
+ * @async
+ * @function
+ * @param {string} campground_id - The ID of the campground to retrieve.
+ * @returns {Promise<Object>} Campground detail object with name, address, media, etc.
+ */
 exports.getCampgroundDetail = async (campground_id) => {
     try {
         const response = await axios.get(`${process.env.CAMPGROUND_API_URL}/${campground_id}`, {
@@ -70,8 +97,7 @@ exports.getCampgroundDetail = async (campground_id) => {
         });
 
         const data = response.data;
-
-        const address = data.FACILITYADDRESS?.[0] || "";
+        const address = data.FACILITYADDRESS?.[0] || {};
 
         const formattedAddress = [
             address.City,
@@ -93,10 +119,7 @@ exports.getCampgroundDetail = async (campground_id) => {
             media_urls: data.MEDIA?.map(media => media.URL) || []
         };
     } catch (error) {
-        res.status(500).json({
-            status: 500,
-            message: 'Failed to fetch campground details',
-            error: error.message
-        });
+        // Note: `res` is not defined in this context, better to throw the error
+        throw new Error(`Failed to fetch campground details: ${error.message}`);
     }
 };

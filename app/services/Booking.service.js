@@ -1,6 +1,20 @@
+/**
+ * @fileoverview Booking service functions to retrieve booking data
+ * along with related campground information.
+ */
+
 const Booking = require('../models/Booking.model');
 const campgroundService = require('./Campground.service');
 
+/**
+ * Get the latest bookings (limit 5) made by a user,
+ * including the associated campground name.
+ * 
+ * @async
+ * @function
+ * @param {string} user_id - ID of the user
+ * @returns {Promise<Object[]>} Array of booking summaries with campground name
+ */
 exports.getLatestBookingsWithCampground = async (user_id) => {
     const bookings = await Booking.getLatestBooking(user_id);
 
@@ -18,6 +32,15 @@ exports.getLatestBookingsWithCampground = async (user_id) => {
     return results;
 };
 
+/**
+ * Get the full booking history of a user,
+ * including campground details like image, name, and address.
+ * 
+ * @async
+ * @function
+ * @param {string} user_id - ID of the user
+ * @returns {Promise<Object[]>} Array of detailed booking records
+ */
 exports.getBookingHistory = async (user_id) => {
     const bookings = await Booking.getBookingHistory(user_id);
 
