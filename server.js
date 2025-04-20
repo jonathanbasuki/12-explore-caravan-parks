@@ -22,7 +22,6 @@ const savedRoute = require('./app/routes/Saved.route.js');
 const bookingRoute = require('./app/routes/Booking.route.js');
 const campgroundRoutes = require('./app/routes/Campground.route.js');
 const campgroundReviewRoutes = require('./app/routes/Review.route.js');
-const paymentRoutes = require('./app/routes/Payment.route.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -79,7 +78,6 @@ app.use(savedRoute);
 app.use(bookingRoute);
 app.use(campgroundRoutes);
 app.use(campgroundReviewRoutes);
-app.use(paymentRoutes);
 
 // Menjalankan server
 app.listen(port, () => {
