@@ -1,10 +1,25 @@
-const bcrypt = require('bcryptjs');
+/**
+ * @fileoverview Sequelize User model and related user account methods.
+ * Handles user creation, authentication lookup, soft deletion, and profile management.
+ */
 
+const bcrypt = require('bcryptjs');
 const { DataTypes, Op } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
-
 const sequelize = require('../config/db.conf');
 
+/**
+ * Sequelize model for User.
+ * 
+ * @typedef {Object} User
+ * @property {string} user_id - Unique user identifier (UUID)
+ * @property {string} username - Unique username
+ * @property {string} email - Unique email address
+ * @property {string} password_hash - Hashed password
+ * @property {Date} created_at - Account creation timestamp
+ * @property {Date} updated_at - Last update timestamp
+ * @property {Date|null} deleted_at - Timestamp of soft deletion (null if active)
+ */
 const User = sequelize.define('User', {
     user_id: {
         type: DataTypes.STRING,
@@ -37,15 +52,31 @@ const User = sequelize.define('User', {
     paranoid: true
 });
 
-// Register new user
+/**
+ * Create a new user with hashed password.
+ * 
+ * @async
+ * @function
+ * @param {Object} data
+ * @param {string} data.username - Desired username
+ * @param {string} data.email - User email
+ * @param {string} data.password - Plain-text password
+ * @returns {Promise<User>} Newly created user
+ */
 User.createUser = async ({ username, email, password }) => {
     const userId = uuidv4();
     const hashed = await bcrypt.hash(password, 10);
-
     return User.create({ user_id: userId, username, email, password_hash: hashed });
-}
+};
 
-// Get user by email or username
+/**
+ * Find a user by email or username (used for login or checking availability).
+ * 
+ * @async
+ * @function
+ * @param {string} identifier - Email or username
+ * @returns {Promise<User|null>} User if found, otherwise null
+ */
 User.getUserByEmailOrUsername = async (identifier) => {
     return await User.findOne({
         where: {
@@ -55,9 +86,15 @@ User.getUserByEmailOrUsername = async (identifier) => {
             ]
         }
     });
-}
+};
 
-// Get all users (hanya yang tidak dihapus)
+/**
+ * Get a list of all active (non-deleted) users.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<User[]>} Array of user data
+ */
 User.getAllUsers = async () => {
     return await User.findAll({
         attributes: ['user_id', 'username', 'email', 'created_at'],
@@ -65,9 +102,16 @@ User.getAllUsers = async () => {
             deleted_at: null
         }
     });
-}
+};
 
-// Get user detail
+/**
+ * Get detailed information of a specific user (non-deleted).
+ * 
+ * @async
+ * @function
+ * @param {string} user_id - ID of the user
+ * @returns {Promise<User|null>} User detail if found, otherwise null
+ */
 User.getUserDetail = async (user_id) => {
     return await User.findOne({
         attributes: ['user_id', 'username', 'email', 'created_at'],
@@ -76,9 +120,17 @@ User.getUserDetail = async (user_id) => {
             deleted_at: null
         }
     });
-}
+};
 
-// Update user details
+/**
+ * Update user profile details (only if user is not deleted).
+ * 
+ * @async
+ * @function
+ * @param {string} user_id - ID of the user
+ * @param {Object} data - Fields to update (e.g., username, email)
+ * @returns {Promise<Object|null>} Updated user with update timestamp, or null if update failed
+ */
 User.updateUserDetail = async (user_id, data) => {
     const [updated] = await User.update(data, {
         where: {
@@ -89,13 +141,19 @@ User.updateUserDetail = async (user_id, data) => {
 
     if (!updated) return null;
 
-    // Fetch and return the updated user details
     return await User.findByPk(user_id, {
         attributes: ['user_id', 'updated_at']
     });
-}
+};
 
-// Soft delete user
+/**
+ * Soft delete a user (set `deleted_at` without removing the record).
+ * 
+ * @async
+ * @function
+ * @param {string} user_id - ID of the user to delete
+ * @returns {Promise<Object|null>} Deleted user with deletion timestamp, or null if failed
+ */
 User.softDeleteUser = async (user_id) => {
     const updated = await User.update(
         { deleted_at: new Date() },
@@ -112,6 +170,6 @@ User.softDeleteUser = async (user_id) => {
     return await User.findByPk(user_id, {
         attributes: ['user_id', 'deleted_at']
     });
-}
+};
 
 module.exports = User;
