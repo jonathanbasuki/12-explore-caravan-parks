@@ -1,0 +1,18 @@
+# APP CONFIG
+PORT = 3000
+BASE_URL = "http://localhost:3000" 
+
+# DB CONFIG
+DB_HOST = "" # Replace with your DBMS host
+DB_PREFIX = "" # Replace with your DBMS prefix
+DB_USER = "" # Replace with your DBMS username
+DB_PASS = "" # Replace with your DBMS password
+DB_NAME = "" # Replace with your database name
+
+# SECRET
+JWT_SECRET = "" # Replace with your JWT Key
+
+# API KEY
+CAMPGROUND_API_URL = "https://ridb.recreation.gov/api/v1/facilities"
+RIDB_API_KEY = "" # Login at campground API to get API Key
+MAPS_API_KEY = "" # Create Google Maps API Key at GCP 
