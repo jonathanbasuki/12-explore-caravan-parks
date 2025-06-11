@@ -41,7 +41,10 @@ exports.validateLogin = async (req, res) => {
         const user = await User.getUserByEmailOrUsername(identifier);
 
         if (!user) {
-            return res.render('pages/auth/login', {
+            if (req.headers.accept && req.headers.accept.includes('application/json')) {
+                return res.status(401).json({ error: 'Credentials not found.' });
+            }
+            return res.status(401).render('pages/auth/login', {
                 title: 'Login',
                 error: 'Credentials not found.',
                 scripts: []
@@ -51,7 +54,10 @@ exports.validateLogin = async (req, res) => {
         const match = await bcrypt.compare(password, user.password_hash);
 
         if (!match) {
-            return res.render('pages/auth/login', {
+            if (req.headers.accept && req.headers.accept.includes('application/json')) {
+                return res.status(401).json({ error: 'Invalid credentials. Please try again.' });
+            }
+            return res.status(401).render('pages/auth/login', {
                 title: 'Login',
                 error: 'Invalid credentials. Please try again.',
                 scripts: []
@@ -65,9 +71,12 @@ exports.validateLogin = async (req, res) => {
         }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.cookie('token', token, { httpOnly: true });
-        res.redirect('/dashboard');
+        return res.redirect('/dashboard');
     } catch (err) {
-        res.render('pages/auth/login', {
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.status(500).json({ error: 'Something went wrong. Please check your credentials.' });
+        }
+        return res.status(500).render('pages/auth/login', {
             title: 'Login',
             error: 'Something went wrong. Please check your credentials.',
             scripts: []

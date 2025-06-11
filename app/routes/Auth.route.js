@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator');
 const authController = require('../controllers/Auth.controller');
 const userController = require('../controllers/User.controller');
 
+const rateLimit = require('../middleware/rateLimit');
 const authValidation = require('../middleware/authValidator');
 const authAuthenticator = require('../middleware/authAuthenticator');
 
@@ -21,7 +22,7 @@ router.get('/login', authAuthenticator.redirectIfAuthenticated, authController.r
  * @description Handle user login submission and validation
  * @access Public
  */
-router.post('/login', authController.validateLogin);
+router.post('/login', rateLimit.loginLimiter, authController.validateLogin);
 
 /**
  * @route GET /register
