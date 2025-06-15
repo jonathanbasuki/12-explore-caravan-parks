@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caravan-app
+  labels:
+    app: caravan-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caravan-app
+  template:
+    metadata:
+      labels:
+        app: caravan-app
+    spec:
+      containers:
+        - name: caravan-app
+          image: caravan-app:latest # Change to your registry/image if pushing to a remote registry
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: caravan-config
+                  key: BASE_URL
+            - name: DB_HOST
+              value: "mysql"
+            - name: DB_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  name: caravan-config
+                  key: DB_PREFIX
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: caravan-secret
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: caravan-secret
+                  key: DB_PASS
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: caravan-config
+                  key: DB_NAME
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: caravan-secret
+                  key: JWT_SECRET
+            - name: CAMPGROUND_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: caravan-config
+                  key: CAMPGROUND_API_URL
+            - name: RIDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: caravan-secret
+                  key: RIDB_API_KEY
+            - name: MAPS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: caravan-secret
+                  key: MAPS_API_KEY 
