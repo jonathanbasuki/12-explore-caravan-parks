@@ -44,6 +44,16 @@ app.use(session({
 
 app.use(flash());
 
+// Redirect HTTP to HTTPS in production
+if (process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (!req.secure) {
+            return res.redirect(['https://', req.get('Host'), req.url].join(''));
+        }
+        next();
+    });
+}
+
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg')[0] || null;
     res.locals.error_msg = req.flash('error_msg')[0] || null;

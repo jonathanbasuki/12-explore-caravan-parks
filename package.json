@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "dev:https": "local-ssl-proxy --source 3443 --target 3000 & nodemon server.js",
     "test": "jest"
   },
   "repository": {
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "jest": "^30.0.0",
+    "local-ssl-proxy": "^2.0.5",
     "supertest": "^7.1.1"
   }
 }
